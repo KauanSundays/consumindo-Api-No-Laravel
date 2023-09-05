@@ -5,9 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Http;
+use Sushi\Sushi;
 
 class UserAddress extends Model
 {
+    use Sushi;
     use HasFactory;
 
     protected $fillable = [
@@ -25,4 +28,12 @@ class UserAddress extends Model
     {
         return  $this->hasOne(User::class);
     }
+
+    public function getRows()
+    {
+    // Fetch products from API
+    $products = Http::get('https://dummyjson.com/products')->json();
+
+    return $products;
+}
 }
