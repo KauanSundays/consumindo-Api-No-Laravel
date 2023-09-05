@@ -6,6 +6,8 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -35,6 +37,18 @@ class UserResource extends Resource
                     ->password()
                     ->required()
                     ->maxLength(191),
+                Fieldset::make('User Address')
+                    ->relationship('userAddress')
+                    ->schema([
+                        TextInput::make('postal_code'),
+                        TextInput::make('postal_code'),
+                        TextInput::make('postal_code'),
+                        TextInput::make('postal_code'),
+                        TextInput::make('postal_code'),
+                        TextInput::make('postal_code'),
+                        // Textarea::make('description'),
+                        // FileUpload::make('image'),
+                    ])
             ]);
     }
 
@@ -73,14 +87,14 @@ class UserResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -88,5 +102,5 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
-    }    
+    }
 }
