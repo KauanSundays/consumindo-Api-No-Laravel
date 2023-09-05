@@ -12,6 +12,7 @@ use Filament\Forms;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -45,33 +46,7 @@ class UserResource extends Resource
                 Fieldset::make('User Address')
                     ->relationship('userAddress')
                     ->schema([
-                        TextInput::make('postal_code')
-                        ->label('CEP')
-                        ->suffixAction(
-                            fn ($state, Closure $set) =>
-                                Action::make('search-action')
-                                    ->icon('heroicon-o-search')
-                                    ->action(function () use ($state, $set) {
-                                        if (blank($state)) {
-                                            Filament::notify('danger', 'Digite o CEP para buscar o endereço');
-                                            return;
-                                        }
-                    
-                                        try {
-                                            $cepData = Http::get("https://viacep.com.br/ws/{$state}/json/")
-                                                ->throw()
-                                                ->json();
-                                        } catch (RequestException $e) {
-                                            Filament::notify('danger', 'Erro ao buscar o endereço');
-                                            return;
-                                        }
-                    
-                                        $set('address_neighborhood', $cepData['bairro'] ?? null);
-                                        $set('address', $cepData['logradouro'] ?? null);
-                                        $set('city_id', City::where('title', $cepData['localidade'])->first()->id ?? null);
-                                        $set('state', State::where('letter', $cepData['uf'])->first()->id ?? null);
-                                    })
-                        ),
+                        
                         TextInput::make('address'),
                         TextInput::make('number'),
                         TextInput::make('complement'),
