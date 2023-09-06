@@ -6,6 +6,7 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Closure;
+use Exception;
 use Filament\Actions\Action;
 use Filament\Facades\Filament;
 use Filament\Forms;
@@ -20,6 +21,8 @@ use GuzzleHttp\Exception\RequestException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Http;
+//use Filament\Infolists\Components\Actions\Action;
+use Filament\Infolists\Components\TextEntry;
 
 class UserResource extends Resource
 {
@@ -46,15 +49,34 @@ class UserResource extends Resource
                 Fieldset::make('User Address')
                     ->relationship('userAddress')
                     ->schema([
-                        
-                        TextInput::make('address'),
-                        TextInput::make('number'),
-                        TextInput::make('complement'),
-                        TextInput::make('neighborhood'),
-                        TextInput::make('city'),
-                        TextInput::make('uf'),
-                        // Textarea::make('description'),
-                        // FileUpload::make('image'),
+                        TextInput::make('postal_code')
+                            ->mask('99999-999')
+                            ->placeholder('NNNNN-NNN')
+                            ->required()
+                            ->suffixAction(
+                                fn ($state, $set) => Forms\Components\Actions\Action::make('search-action')
+                                    ->icon('heroicon-o-search')
+                                    ->action(function () use ($state, $set) {
+                                        
+                                        try {
+                                            $cepData = Http::get(
+                                                "https://viacep.com.br/ws/{$state}/json/"
+                                            )->throw()->json();
+
+                                            if (in_array('erro', $cepData)) {
+                                                throw new Exception();
+                                            }
+                                        } catch (Exception $e) {
+                                            Notification::make()
+                                                ->title('Erro ao Buscar o endereço')
+                                                ->danger()
+                                                ->send();
+                                        }
+
+
+                                    })
+                            )
+
                     ])
             ]);
     }

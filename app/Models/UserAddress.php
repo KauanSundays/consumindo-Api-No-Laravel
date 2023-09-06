@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Sushi\Sushi;
 
@@ -24,16 +25,27 @@ class UserAddress extends Model
         'uf',
     ];
 
+    public function getRows()
+    {
+        //API
+        $cep = Http::get('viacep.com.br/ws/01001000/json/')->json();
+ 
+        //filtering some attributes
+        $cep = Arr::map($cep['cep'], function ($item) {
+            return Arr::only($item,
+                [
+                    'cep',
+                    'logradouro',
+                    'complemento',
+                ]
+            );
+        });
+ 
+        return $cep;
+    }
+
     public function users(): HasOne
     {
         return  $this->hasOne(User::class);
     }
-
-    public function getRows()
-    {
-    // Fetch products from API
-    $products = Http::get('https://dummyjson.com/products')->json();
-
-    return $products;
-}
 }

@@ -11,14 +11,13 @@ use Sushi\Sushi;
 
 class Product extends Model
 {
-    use HasFactory;
     use Sushi;
-
+ 
     public function getRows()
     {
         //API
         $products = Http::get('https://dummyjson.com/products')->json();
-
+ 
         //filtering some attributes
         $products = Arr::map($products['products'], function ($item) {
             return Arr::only($item,
@@ -34,8 +33,7 @@ class Product extends Model
                 ]
             );
         });
-
+ 
         return $products;
     }
-
 }

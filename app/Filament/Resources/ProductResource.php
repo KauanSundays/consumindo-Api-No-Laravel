@@ -35,6 +35,7 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name'), 
+                TextColumn::make('category'), 
                 ImageColumn::make('thumbnail')
             ])
             ->filters([

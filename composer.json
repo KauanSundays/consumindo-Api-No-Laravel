@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "blade-ui-kit/blade-icons": "^1.5",
         "calebporzio/sushi": "^2.4",
         "filament/filament": "3.0-stable",
         "filament/notifications": "^3.0",
