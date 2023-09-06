@@ -55,7 +55,7 @@ class UserResource extends Resource
                             ->required()
                             ->suffixAction(
                                 fn ($state, $set) => Forms\Components\Actions\Action::make('search-action')
-                                    ->icon('heroicon-o-search')
+                                    ->icon('heroicon-m-arrow-down-circle'))
                                     ->action(function () use ($state, $set) {
                                         
                                         try {
@@ -72,13 +72,9 @@ class UserResource extends Resource
                                                 ->danger()
                                                 ->send();
                                         }
-
-
                                     })
-                            )
-
-                    ])
-            ]);
+                                ])
+                            ]);
     }
 
     public static function table(Table $table): Table
