@@ -10,13 +10,13 @@ use Filament\Forms\Form;
 
 class EditProfile extends BaseEditProfile
 {
+    protected static string $view = 'filament.pages.auth.edit-profile';
+
+
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('username')
-                    ->required()
-                    ->maxLength(255),
                 $this->getNameFormComponent(),
                 $this->getEmailFormComponent(),
                 $this->getPasswordFormComponent(),
