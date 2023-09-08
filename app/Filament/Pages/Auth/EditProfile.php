@@ -12,6 +12,8 @@ class EditProfile extends BaseEditProfile
 {
     protected static string $view = 'filament.pages.auth.edit-profile';
 
+    protected static string $view = 'filament.pages.auth.edit-profile';
+
 
     public function form(Form $form): Form
     {
