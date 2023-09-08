@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages\Auth;
 
+use Filament\Forms\Components\Section;
 use Filament\Pages\Page;
 use Filament\Pages\Auth\EditProfile as BaseEditProfile;
 use Filament\Forms\Components\TextInput;
@@ -19,10 +20,13 @@ class EditProfile extends BaseEditProfile
     {
         return $form
             ->schema([
-                $this->getNameFormComponent(),
-                $this->getEmailFormComponent(),
-                $this->getPasswordFormComponent(),
-                $this->getPasswordConfirmationFormComponent(),
+                Section::make('Personal Informations')
+                    ->schema([
+                    $this->getNameFormComponent(),
+                    $this->getEmailFormComponent(),
+                    $this->getPasswordFormComponent(),
+                    $this->getPasswordConfirmationFormComponent(),
+                ])
             ]);
     }
 }
