@@ -20,6 +20,12 @@ class EditProfile extends BaseEditProfile
         return false;
     }
 
+    public static function getSlug(): string
+    {
+        return static::$slug ?? 'me';
+    }
+
+
 
     public function form(Form $form): Form
     {
