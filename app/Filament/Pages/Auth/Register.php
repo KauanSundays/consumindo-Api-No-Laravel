@@ -2,11 +2,22 @@
 
 namespace App\Filament\Pages\Auth;
 
+use Filament\Forms\Form;
+use Filament\Pages\Auth\Register as AuthRegister;
 use Filament\Pages\Page;
 
-class Register extends Page
-{
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+class Register extends AuthRegister
 
-    protected static string $view = 'filament.pages.auth.register';
+{
+    public function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                $this->getNameFormComponent(),
+                $this->getEmailFormComponent(),
+                $this->getPasswordFormComponent(),
+                $this->getPasswordConfirmationFormComponent(),
+            ])
+            ->statePath('data');
+    }
 }
