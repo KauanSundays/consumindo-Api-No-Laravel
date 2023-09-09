@@ -2,6 +2,8 @@
 
 namespace App\Filament\Pages\Auth;
 
+use Filament\Forms\Components\Component;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Pages\Auth\Register as AuthRegister;
 use Filament\Pages\Page;
@@ -19,5 +21,15 @@ class Register extends AuthRegister
                 $this->getPasswordConfirmationFormComponent(),
             ])
             ->statePath('data');
+    }
+
+    protected function getDocumentFormComponent(): Component
+    {
+        return TextInput::make('document')
+            ->label(__('CPF'))
+            ->email()
+            ->required()
+            ->maxLength(255)
+            ->unique($this->getUserModel());
     }
 }
