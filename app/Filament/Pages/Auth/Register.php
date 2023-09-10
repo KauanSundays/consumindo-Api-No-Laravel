@@ -27,6 +27,7 @@ class Register extends AuthRegister
     {
         return TextInput::make('document')
             ->label(__('CPF'))
+            ->mask('')
             ->email()
             ->required()
             ->maxLength(255)
