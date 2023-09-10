@@ -28,7 +28,6 @@ class Register extends AuthRegister
         return TextInput::make('document')
             ->label(__('CPF'))
             ->mask('999.999.999-99')
-            ->email()
             ->required()
             ->maxLength(255)
             ->unique($this->getUserModel());
