@@ -16,6 +16,7 @@ class Register extends AuthRegister
         return $form
             ->schema([
                 $this->getNameFormComponent(),
+                $this->getDocumentFormComponent(),
                 $this->getEmailFormComponent(),
                 $this->getPasswordFormComponent(),
                 $this->getPasswordConfirmationFormComponent(),
