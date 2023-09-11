@@ -16,6 +16,41 @@ use Illuminate\Validation\ValidationException as ValidationValidationException;
 
 class Login extends AuthLogin
 {
+
+    public function authenticate(): ?LoginResponse
+    {
+        try {
+            $this->rateLimit(5);
+        } catch (TooManyRequestsException $exception) {
+            Notification::make()
+                ->title(__('filament-panels::pages/auth/login.notifications.throttled.title', [
+                    'seconds' => $exception->secondsUntilAvailable,
+                    'minutes' => ceil($exception->secondsUntilAvailable / 60),
+                ]))
+                ->body(array_key_exists('body', __('filament-panels::pages/auth/login.notifications.throttled') ?: []) ? __('filament-panels::pages/auth/login.notifications.throttled.body', [
+                    'seconds' => $exception->secondsUntilAvailable,
+                    'minutes' => ceil($exception->secondsUntilAvailable / 60),
+                ]) : null)
+                ->danger()
+                ->send();
+
+            return null;
+        }
+
+        $data = $this->form->getState();
+
+        if (! Filament::auth()->attempt($this->getCredentialsFromFormData($data), 
+            $data['remember'] ?? false)) {
+            throw ValidationValidationException::withMessages([ //importar de iluminate
+                'data.login' => __('filament-panels::pages/auth/login.messages.failed'),
+            ]);
+        }
+
+        session()->regenerate();
+
+        return app(LoginResponse::class);
+    }
+    
     public function form(Form $form): Form
     {
         return $form
@@ -44,36 +79,5 @@ class Login extends AuthLogin
         ];
     }
 
-    public function authenticate(): ?LoginResponse
-    {
-        try {
-            $this->rateLimit(5);
-        } catch (TooManyRequestsException $exception) {
-            Notification::make()
-                ->title(__('filament-panels::pages/auth/login.notifications.throttled.title', [
-                    'seconds' => $exception->secondsUntilAvailable,
-                    'minutes' => ceil($exception->secondsUntilAvailable / 60),
-                ]))
-                ->body(array_key_exists('body', __('filament-panels::pages/auth/login.notifications.throttled') ?: []) ? __('filament-panels::pages/auth/login.notifications.throttled.body', [
-                    'seconds' => $exception->secondsUntilAvailable,
-                    'minutes' => ceil($exception->secondsUntilAvailable / 60),
-                ]) : null)
-                ->danger()
-                ->send();
-
-            return null;
-        }
-
-        $data = $this->form->getState();
-
-        if (! Filament::auth()->attempt($this->getCredentialsFromFormData($data), $data['remember'] ?? false)) {
-            throw ValidationValidationException::withMessages([ //importar de iluminate
-                'data.login' => __('filament-panels::pages/auth/login.messages.failed'),
-            ]);
-        }
-
-        session()->regenerate();
-
-        return app(LoginResponse::class);
-    }
+    
 }
