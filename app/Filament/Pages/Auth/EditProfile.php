@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages\Auth;
 
+use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Section;
 use Filament\Pages\Page;
 use Filament\Pages\Auth\EditProfile as BaseEditProfile;
@@ -35,10 +36,22 @@ class EditProfile extends BaseEditProfile
                     ->aside()
                     ->schema([
                     $this->getNameFormComponent(),
+                    $this->getDocumentFormComponent(),
                     $this->getEmailFormComponent(),
                     $this->getPasswordFormComponent(),
                     $this->getPasswordConfirmationFormComponent(),
                 ])
             ]);
+    }
+
+    protected function getDocumentFormComponent(): Component
+    {
+        return TextInput::make('document')
+            ->label(__('CPF'))
+            ->mask('999.999.999-99')
+            //->disabled() fica apenas pra visualização
+            ->required()
+            ->maxLength(255)
+            ->unique(ignoreRecord: true);
     }
 }

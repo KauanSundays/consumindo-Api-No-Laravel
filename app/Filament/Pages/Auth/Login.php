@@ -3,7 +3,6 @@
 namespace App\Filament\Pages\Auth;
 
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
-use Dotenv\Exception\ValidationException;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
@@ -12,7 +11,7 @@ use Filament\Http\Responses\Auth\Contracts\LoginResponse;
 use Filament\Notifications\Notification;
 use Filament\Pages\Auth\Login as AuthLogin;
 use Filament\Pages\Page;
-use Illuminate\Validation\ValidationException as ValidationValidationException;
+use Illuminate\Validation\ValidationException;
 
 class Login extends AuthLogin
 {
@@ -41,7 +40,7 @@ class Login extends AuthLogin
 
         if (! Filament::auth()->attempt($this->getCredentialsFromFormData($data), 
             $data['remember'] ?? false)) {
-            throw ValidationValidationException::withMessages([ //importar de iluminate
+            throw ValidationException::withMessages([ //importar de iluminate
                 'data.login' => __('filament-panels::pages/auth/login.messages.failed'),
             ]);
         }
@@ -50,7 +49,6 @@ class Login extends AuthLogin
 
         return app(LoginResponse::class);
     }
-    
     public function form(Form $form): Form
     {
         return $form
