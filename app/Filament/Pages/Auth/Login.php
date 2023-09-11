@@ -29,4 +29,12 @@ class Login extends AuthLogin
             ->autocomplete()
             ->autofocus();
     }
+
+    protected function getCredentialsFromFormData(array $data): array
+    {
+        return [
+            'email' => $data['email'],
+            'password' => $data['password'],
+        ];
+    }
 }
