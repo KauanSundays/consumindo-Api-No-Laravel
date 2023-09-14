@@ -3,6 +3,7 @@
 namespace App\Filament\Pages\Auth;
 
 use Filament\Forms\Components\Component;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Section;
 use Filament\Pages\Page;
 use Filament\Pages\Auth\EditProfile as BaseEditProfile;
@@ -53,5 +54,18 @@ class EditProfile extends BaseEditProfile
             ->required()
             ->maxLength(255)
             ->unique(ignoreRecord: true);
+    }
+
+    protected function getAddressFormComponent(): Component
+    {
+        return Fieldset::make('Address')
+            ->schema([
+                TextInput::make('postal_code'),
+                TextInput::make('postal_code'),
+                TextInput::make('postal_code'),
+                TextInput::make('postal_code'),
+                TextInput::make('postal_code'),
+                TextInput::make('postal_code'),
+            ]);
     }
 }
