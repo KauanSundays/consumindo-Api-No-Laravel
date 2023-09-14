@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages\Auth;
 
+use App\Forms\Components\PostalCode;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Section;
@@ -39,6 +40,7 @@ class EditProfile extends BaseEditProfile
                     $this->getNameFormComponent(),
                     $this->getDocumentFormComponent(),
                     $this->getEmailFormComponent(),
+                    $this->getAddressFormComponent(),
                     $this->getPasswordFormComponent(),
                     $this->getPasswordConfirmationFormComponent(),
                 ])
@@ -60,7 +62,7 @@ class EditProfile extends BaseEditProfile
     {
         return Fieldset::make('Address')
             ->schema([
-                TextInput::make('postal_code'),
+                PostalCode::make('postal_code'),
                 TextInput::make('street'),
                 TextInput::make('number'),
                 TextInput::make('complement'),
