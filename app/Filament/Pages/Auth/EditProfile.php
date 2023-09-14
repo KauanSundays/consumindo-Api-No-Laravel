@@ -61,11 +61,12 @@ class EditProfile extends BaseEditProfile
         return Fieldset::make('Address')
             ->schema([
                 TextInput::make('postal_code'),
-                TextInput::make('postal_code'),
-                TextInput::make('postal_code'),
-                TextInput::make('postal_code'),
-                TextInput::make('postal_code'),
-                TextInput::make('postal_code'),
+                TextInput::make('street'),
+                TextInput::make('number'),
+                TextInput::make('complement'),
+                TextInput::make('neighborhood'),
+                TextInput::make('city'),
+                TextInput::make('state'),
             ]);
     }
 }
