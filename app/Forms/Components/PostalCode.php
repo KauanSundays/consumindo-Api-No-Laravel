@@ -13,6 +13,9 @@ class PostalCode extends TextInput //será por text input
         array $setFields = []
     ) : static {
         $viaCepRequest = function (
+            $state,
+            $livewire, 
+            $set,
             
         )
         $this
