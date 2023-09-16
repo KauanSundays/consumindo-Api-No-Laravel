@@ -8,7 +8,10 @@ use Filament\Forms\Components\TextInput;
 
 class PostalCode extends TextInput //será por text input
 {
-    public function viaCep() : static
+    public function viaCep(
+        string $errorMessage = 'CEP inválido.',
+        array $setFields = []
+    ) : static
     {
         $this
             ->mask('99999-999')
