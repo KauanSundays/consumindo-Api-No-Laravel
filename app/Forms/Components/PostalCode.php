@@ -11,8 +11,10 @@ class PostalCode extends TextInput //será por text input
     public function viaCep(
         string $errorMessage = 'CEP inválido.',
         array $setFields = []
-    ) : static
-    {
+    ) : static {
+        $viaCepRequest = function (
+            
+        )
         $this
             ->mask('99999-999')
             ->minLength(9)
