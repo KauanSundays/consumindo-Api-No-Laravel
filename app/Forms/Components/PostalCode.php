@@ -16,8 +16,10 @@ class PostalCode extends TextInput //será por text input
             $state,
             $livewire, 
             $set,
-            
-        )
+            $component, 
+            string $errorMessage,
+            array $setFields
+        ) {}
         $this
             ->mask('99999-999')
             ->minLength(9)
